@@ -1,26 +1,44 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Form from './Form';
+import List from './List';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+    const [todos, setTodos] = React.useState( // Reactのみimportしている場合はこのようにReact.のようにかける
+    [
+        {
+            text: "宿題をする"
+        },
+        {
+            text: "選択をする"
+        },
+        {
+            text: "確定申告をする"
+        }
+    ]
+    )
+
+    const handleDelete = (text) => {
+        // todosをコピーする
+        const newTodos = todos.slice()
+        // todosから削除するtodoを発見する
+        for (let i = 0; i < newTodos.length; i++) {
+            switch (newTodos[i].text) {
+                case text:
+                    // todosから削除する => text同じだと複数消えてしまう => 一意 => id
+                    newTodos.splice(i, 1) // i番目のものを一個削除するということ
+            }
+        }
+        // setTodosを呼び出す
+        setTodos(newTodos)
+    }
+
+
+    return (
+        <>
+            <Form todos={todos} setTodos={setTodos} />
+            <List todos={todos} handleDelete={handleDelete} />
+        </>
+    )
 }
 
-export default App;
+export default App
